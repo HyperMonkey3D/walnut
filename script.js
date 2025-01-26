@@ -2,8 +2,10 @@ const grid = document.getElementById('grid');
 const dropdown = document.getElementById('grid-dropdown');
 const startButton = document.getElementById('start-button');
 const counter = document.getElementById('counter');
-const finalScoreCounter = document.getElementById('final-score');
+const welcomeMessage = document.querySelector('.welcome');
+const scoreCounter = document.querySelector('.game-on');
 const cellImage = "./public/walnut.png"
+const logoGameOverModal = "./public/walnut-logo.png"
 let gridDropdownValue
 let isGridActive = false
 let cellsArray
@@ -16,13 +18,22 @@ let whiteToYellowCounter = 0
 function setGrid() {
     switch (gridDropdownValue) {
         case "small":
-            createCellsArray(20)
+            createCellsArray(16)
+            grid.classList.remove('regular')
+            grid.classList.remove('large')
+            grid.classList.add('small')
             break;
         case "regular":
             createCellsArray(25)
+            grid.classList.remove('small')
+            grid.classList.remove('large')
+            grid.classList.add('regular')
             break;
         case "large":
-            createCellsArray(30)
+            createCellsArray(36)
+            grid.classList.remove('regular')
+            grid.classList.remove('small')
+            grid.classList.add('large')
             break;
         default:
             return
@@ -52,6 +63,28 @@ function createCellsArray(value) {
     randomElement = yellowArray[Math.floor(Math.random() * yellowArray.length)]
 }
 
+function createGameOverModal() {
+    setTimeout(() => {
+        let gridModal = document.createElement("div")
+        gridModal.classList.add("grid-modal")
+        let modalContainer = document.createElement("div")
+        modalContainer.classList.add("modal-container")
+        modalContainer.innerHTML = `
+        <div class="modal-message">
+                <div class="message-box">
+                    <div class="modal-logo">
+                        <img src="${logoGameOverModal}" alt="walnut logo">
+                    </div >
+                    <p>You Won!👍🏼</p>
+                    <span>Click the Disable Grid button to start again</span>
+                </div>
+        </div>
+       `
+        gridModal.append(modalContainer);
+        grid.append(gridModal);
+    }, 1500)
+}
+
 function cellOnHover(cell, index) {
     cell.addEventListener('mouseover', () => {
         if (!isChallengeComplete) {
@@ -65,8 +98,9 @@ function cellOnHover(cell, index) {
                 image.id = "image"
                 image.src = cellImage;
                 cell.appendChild(image);
-                finalScoreCounter.innerText = whiteToYellowCounter
                 isChallengeComplete = true;
+                grid.classList.add('shake');
+                createGameOverModal();
             } else {
                 cell.classList.remove('cell-yellow');
                 cell.classList.add('cell-white');
@@ -80,6 +114,8 @@ function activateAttributes() {
     setGrid();
     dropdown.selectedIndex = 0
     dropdown.disabled = true
+    welcomeMessage.classList.remove('visible');
+    scoreCounter.classList.add('visible');
     isGridActive = true;
 }
 
@@ -92,14 +128,19 @@ function disableAttributes() {
     whiteToYellowCounter = 0
     counter.innerText = '0';
     isGridActive = false;
+    welcomeMessage.classList.add('visible');
+    scoreCounter.classList.remove('visible');
     gridDropdownValue = "pick mode"
 }
 
 startButton.addEventListener('click', () => {
     if (isGridActive) {
         disableAttributes()
+        grid.classList.remove('regular')
+        grid.classList.remove('small')
+        grid.classList.remove('large')
+        grid.classList.remove('shake')
     } else {
-        finalScoreCounter.innerText = '0'
         isChallengeComplete = false
         activateAttributes()
     }
