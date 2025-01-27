@@ -5,6 +5,8 @@
     --walnut-brand: #f6f6f6;
     --walnut-purple-3: #eeeafb;
     --walnut-green-2: #9ff5d0;
+    --white-cell: white;
+    --yellow-cell: #ffad00;
 }
 
 body {
@@ -87,6 +89,31 @@ main {
     font-size: 3rem;
     font-weight: bold;
     margin: 0;
+}
+
+.welcome {
+    display: none
+}
+
+.welcome.visible {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: normal;
+    margin: 10px 0 0 0;
+    color: var(--walnut-accent);
+    border-bottom: 3px solid var(--walnut-accent);
+}
+
+.game-on {
+    display: none;
+}
+
+.game-on.visible {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: normal;
+    color: var(--walnut-accent);
+    border-bottom: 3px solid var(--walnut-accent);
 }
 
 #grid {
@@ -200,7 +227,7 @@ main {
     40% {
         transform: translateX(3%);
     }
-    600% {
+    60% {
         transform: translateX(-3%);
     }
     80% {
@@ -288,41 +315,16 @@ main {
 }
 
 .cell-white {
-    background-color: white;
+    background-color: var(--white-cell);
 }
 
 .cell-yellow {
-    background-color: #ffad00;
+    background-color: var(--yellow-cell);
 }
 
 #image {
     width: 100%;
     height: 100%;
-}
-
-.welcome {
-    display: none
-}
-
-.welcome.visible {
-    display: block;
-    font-size: 1.5rem;
-    font-weight: normal;
-    margin: 10px 0 0 0;
-    color: var(--walnut-accent);
-    border-bottom: 3px solid var(--walnut-accent);
-}
-
-.game-on {
-    display: none;
-}
-
-.game-on.visible {
-    display: block;
-    font-size: 1.5rem;
-    font-weight: normal;
-    color: var(--walnut-accent);
-    border-bottom: 3px solid var(--walnut-accent);
 }
 
 footer {
